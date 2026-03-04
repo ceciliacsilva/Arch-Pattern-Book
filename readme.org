@@ -1,0 +1,27 @@
+#+title: Readme
+#+author: Cecília Carneiro e Silva
+
+* Project
+
+This project is an implementation of the ~allocation~ microservice from the book
+[[https://www.amazon.com/Architecture-Patterns-Python-Domain-Driven-Microservices/dp/1492052205][Architecture Patterns with Python]] written in Rust. It is a idiomatic translation
+of the [[https://github.com/cosmicpython/code][example-code]] provided by the authors.
+
+<arch-pict>
+
+This is a implementation of a ~Event Driven~, ~Command Request Query
+Segregation~ architecture.
+
+For external systems, I'm using:
+- Redis as the ~Event Processing~ system (not recommended for production by fine
+  as an educational example);
+- PostgreSQL as the relational DBMS.
+
+Crates:
+
+- [[https://docs.rs/crate/sqlx/latest][sqlx]]: DB interation layer.
+- [[https://docs.rs/redis/latest/][redis]]: for Redis interations.
+- [[https://github.com/tokio-rs/axum][axum]]: micro web framework.
+
+Goals:
+- check if the same patterns could be applied to Rust (and make sense).

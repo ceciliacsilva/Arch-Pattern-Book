@@ -9,15 +9,15 @@ of the [[https://github.com/cosmicpython/code][example-code]] provided by the au
 
 <arch-pict>
 
-This is a implementation of a ~Event Driven~, ~Command Request Query
-Segregation~ architecture.
+This is a implementation of a **Event Driven**, **Command Request Query
+Segregation** architecture.
 
 For external systems, I'm using:
 - Redis as the ~Event Processing~ system (not recommended for production by fine
   as an educational example);
 - PostgreSQL as the relational DBMS.
 
-Crates:
+**Crates**:
 
 - [[https://docs.rs/crate/sqlx/latest][sqlx]]: DB interation layer.
 - [[https://docs.rs/redis/latest/][redis]]: for Redis interations.
@@ -25,3 +25,11 @@ Crates:
 
 Goals:
 - check if the same patterns could be applied to Rust (and make sense).
+
+** Implementation choices
+
+TODO
+
+** More about the exercice
+
+TODO

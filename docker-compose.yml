@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+  postgres:
+    image: postgres:18
+    environment:
+      - POSTGRES_USER=allocation
+      - POSTGRES_PASSWORD=abc123
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "63791:6379"

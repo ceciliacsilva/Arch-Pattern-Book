@@ -4,29 +4,69 @@
 * Project
 
 This project is an implementation of the ~allocation~ microservice from the book
-[[https://www.amazon.com/Architecture-Patterns-Python-Domain-Driven-Microservices/dp/1492052205][Architecture Patterns with Python]] written in Rust. It is a idiomatic translation
-of the [[https://github.com/cosmicpython/code][example-code]] provided by the authors.
+[[https://www.amazon.com/Architecture-Patterns-Python-Domain-Driven-Microservices/dp/1492052205][Architecture Patterns with Python]] written in Rust. It is a direct translation of
+the [[https://github.com/cosmicpython/code][example-code]] provided by the authors but using Rust and ~async
+technologies~. It implements an **Event Driven**, **Command Query Request
+Segregation** and **Event Sourcing** architecture. This example isn't a complete
+(or fail proof) implementation of a ~allocation~ microservice, its goals is to
+explore architectural patterns and stress ~test-driven development~.
 
-<arch-pict>
+** Background
 
-This is a implementation of a **Event Driven**, **Command Request Query
-Segregation** architecture.
+A few of months ago, I've read the book [[https://www.amazon.com/Architecture-Patterns-Python-Domain-Driven-Microservices/dp/1492052205][Architecture Patterns with Python]] and I
+decided to try to apply the concepts from the book to build the same application
+they did (an ~allocation microservice~) but in ~async~ Rust. I think this is an
+interesting challenge because Rust doesn't have a very mature ~backend~
+ecosystem and it a challeging language to work in the ~async~ domain but you'll
+learn a lot. And since Rust is powering so many of the python ecosystem I through
+this was going to be a fun experience (and it was).
 
-For external systems, I'm using:
+I kept the authors choices for external systems, and I'm using:
 - Redis as the ~Event Processing~ system (not recommended for production by fine
   as an educational example);
 - PostgreSQL as the relational DBMS.
 
-**Crates**:
+Rust **Crates**:
 
 - [[https://docs.rs/crate/sqlx/latest][sqlx]]: DB interation layer.
 - [[https://docs.rs/redis/latest/][redis]]: for Redis interations.
 - [[https://github.com/tokio-rs/axum][axum]]: micro web framework.
 
 Goals:
-- check if the same patterns could be applied to Rust (and make sense).
+- check if the same patterns could be applied to Rust (and make sense);
+- seem how the application would look like in async setting;
+- get a better feeling of the Rust backend ecosystem.
+
+This example might sound like over-engineered - and it is - but for a good
+reason, to explore how an ~event-driven/event-source~ architetured application
+behaves in an Agile setting with moving requirements and small teams.
+
+Write calls (CQRS ~Commands~) to the ~allocation~ microservice as transformed
+into ~internal commands~ and sent to the ~service_bus~ - which will ~handle~
+them. ~handle_command~ dispatches to ~handler~ that have access to a ~Product~
+(more about this below) and the Database ~unit of work~ class. ~Product~
+operations can in ~generate~ ~Event~ s (internal or external), that are also
+~handle~ d by the ~service_bus~.
+
+Message bus owns the ~Repository~ and the ~uow~ is the central coordination
+place for db operations. The domain has:
+- ~Product~ s: context boundary
+- ~Batche~ es
+- ~OrderLine~ s
+- And since ~reads~ are separeted, a ~AllocationView~ component.
+
+Check ~Product test~ to have a clearer picture about the domain.
+
+You can check the database schema (which is very simple) by looking at
+~src/migrations~.
 
 ** Implementation choices
+
+*** Enum vs ~trait objects~
+
+TODO
+
+*** Sqlx vs Diesel vs other ORMs
 
 TODO
 
